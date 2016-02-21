@@ -1,0 +1,26 @@
+Notes on 3D printer board schematic and PCB
+===========================================
+
+1. General
+
+I have designed this to need only a 2-layer PCB and to fit within the 100x80mm limit of the freeware edition of Eagle PCB layout. 2 layers is sufficient for the ATSAM4 processors in 64-LFQP package, and the layout of the processor, decoupling capacitors etc. has already benn proven in PanelDue.
+
+If you change to a 4 layer board or you enlarge the board, this will compromise the ability of home users to make changes without purchasing the full version of Eagle PCB, unless you also move the design to KiCad or another free package.
+
+A large part of the cost of this board (see BOM) is assembly cost. Assembly in China would cost much less but carries much greater risk. The costings do not include the cost of testing, which needs to be done using ATE if volumnes are high and testing costs are tpo be kept low.
+
+2. PCB specification
+
+The PCB must have 2oz copper in order to carry the heated bed current safely.
+
+3. Schematic changes pending
+
+(a) Tie ADVREF to +3.3V. An LC filter is probably not needed, but I suggest adding one in case of problems in this area (use a 0R resistor if, as I expect, it is not needed).
+
+(b) The DAC feed to the stepper drivers needs modification. The DAC output range is approx. 0.55V to 2.75V. The feed to stepper drivers should ideally be around 0V to about 1.2V giving a current range of 0 to 1.5A using 0.1 ohm sense resistors, or 0 to 3A using 0.05 ohm sense resistors. Use a silicon diode to lose about 0.65V and to feed a voltage divider to scale the maximum output down from about 2.1V to 1.2V. The diode will introduce a small temperature sensitivity, but this will be low enough not to matter.
+
+(c) The wiring between the unconnected output pins of the SAM4S and the expansion connectors needs to be added. The two remaining inverters in the 74HCT04 package should be used to buffer the SPI MOSI and SCLK pins feeding the connector for the 12864, to raise the signal level to 5V.
+
+
+DC 2016-02-21
+
